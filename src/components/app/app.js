@@ -7,6 +7,7 @@ import CharactersPage from '../pages/charactersPage';
 import GotService from '../../services/gotService';
 import HousesPage from '../pages/housesPage';
 import BooksPage from '../pages/booksPage';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 export default class App extends React.Component {
     state = {
@@ -25,24 +26,26 @@ export default class App extends React.Component {
         const randomChar = this.state.randomCharVisible ? <RandomChar /> : null;
 
         return (
-            <> 
-                <Container>
-                    <Header />
-                </Container>
-                <Container>
-                    <Row>
-                        <Col lg={{size: 5, offset: 0}}>
-                            {randomChar}
-                            <BlockToggler
-                                text={'Toggle Random Character'}
-                                onToggle={this.onToggle} />
-                        </Col>
-                    </Row>
-                    <CharactersPage />
-                    <HousesPage />
-                    <BooksPage />
-                </Container>
-            </>
+            <Router>
+                <div className="app"> 
+                    <Container>
+                        <Header />
+                    </Container>
+                    <Container>
+                        <Row>
+                            <Col lg={{size: 5, offset: 0}}>
+                                {randomChar}
+                                <BlockToggler
+                                    text={'Toggle Random Character'}
+                                    onToggle={this.onToggle} />
+                            </Col>
+                        </Row>
+                        <Route path="/characters" component={CharactersPage} />
+                        <Route path="/houses" component={HousesPage} />
+                        <Route path="/books" component={BooksPage} />
+                    </Container>
+                </div>
+            </Router>
         );
     }
 };
