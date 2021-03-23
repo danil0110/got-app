@@ -3,10 +3,8 @@ import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
 import BlockToggler from '../blockToggler';
-import CharactersPage from '../pages/charactersPage';
+import {CharactersPage, HousesPage, BooksPage, BooksItem} from '../pages';
 import GotService from '../../services/gotService';
-import HousesPage from '../pages/housesPage';
-import BooksPage from '../pages/booksPage';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 export default class App extends React.Component {
@@ -42,7 +40,8 @@ export default class App extends React.Component {
                         </Row>
                         <Route path="/characters" component={CharactersPage} />
                         <Route path="/houses" component={HousesPage} />
-                        <Route path="/books" component={BooksPage} />
+                        <Route path="/books" exact component={BooksPage} />
+                        <Route path="/books/:id" render={() => BooksItem} />
                     </Container>
                 </div>
             </Router>
