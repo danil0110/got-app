@@ -28,15 +28,20 @@ export default class App extends React.Component {
                         <Header />
                     </Container>
                     <Container>
-                        <Switch>
-                            <Route path="/" exact component={HomePage} />
-                            <Route path="/characters" render={() => (
+                        <Route exact path="/characters" render={() => {
+                            return (
                                 <Row>
                                     <Col lg={{size: 5, offset: 0}}>
                                         <RandomChar />
                                     </Col>
                                 </Row>
-                            )} />
+                            );
+                        }} />
+                        <Switch>
+                            <Route path="/" exact component={HomePage} />
+                            {/* <Route path="/characters" render={() => (
+                                
+                            )} /> */}
                             <Route path="/characters" component={CharactersPage} />
                             <Route path="/houses" component={HousesPage} />
                             <Route path="/books" exact component={BooksPage} />
