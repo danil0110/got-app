@@ -3,8 +3,7 @@ import {Col, Row, Container} from 'reactstrap';
 import './app.css';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import BlockToggler from '../blockToggler';
-import {CharactersPage, HousesPage, BooksPage, BooksItem} from '../pages';
+import {HomePage, CharactersPage, HousesPage, BooksPage, BooksItem} from '../pages';
 import GotService from '../../services/gotService';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
@@ -29,6 +28,7 @@ export default class App extends React.Component {
                         <Header />
                     </Container>
                     <Container>
+                        <Route path="/" exact component={HomePage} />
                         <Route path="/characters" render={() => (
                             <Row>
                                 <Col lg={{size: 5, offset: 0}}>

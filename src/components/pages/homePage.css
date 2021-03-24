@@ -1,0 +1,16 @@
+.home-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.home-block h1 {
+    text-align: center;
+    color: white;
+    font-size: 48px;
+}
+
+.home-block img {
+    margin-top: 20px;
+    object-fit: contain;
+}
