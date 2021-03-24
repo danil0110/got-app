@@ -4,7 +4,7 @@ import './homePage.css';
 
 const HomePage = () => {
     return (
-        <div class="home-block">
+        <div className="home-block">
             <h1>Welcome to the Game Of Thrones DB</h1>
             <img src={img} alt="got-logo" />
         </div>
