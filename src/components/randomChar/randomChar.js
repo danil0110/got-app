@@ -1,78 +1,68 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import './randomChar.css';
 import Spinner from '../spinner';
 import BlockToggler from '../blockToggler';
 import GotService from '../../services/gotService';
 import ErrorMessage from '../errorMessage';
 
-export default class RandomChar extends Component {
-    componentDidMount() {
-        this.updateChar();
-        this.timerId = setInterval(this.updateChar, 1500);
+function RandomChar() {
+    const gotService = new GotService();
+
+    const [char, setChar] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [visible, setVisible] = useState(true);
+    const [error, setError] = useState(false);
+
+    useEffect(() => {
+        updateChar();
+        let timerId = setInterval(updateChar, 1500);
+
+        return () => {
+            clearInterval(timerId);
+        }
+    }, []);
+
+    function onCharLoaded(char) {
+        setChar(char);
+        setLoading(false);
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timerId);
+    function onError() {
+        setError(true);
+        setLoading(false);
     }
 
-    gotService = new GotService();
-    state = {
-        char: {},
-        loading: true,
-        visible: true,
-        error: false
-    }
-
-    onCharLoaded = char => {
-        this.setState({
-            char,
-            loading: false
-        });
-    }
-
-    onError = err => {
-        this.setState({
-            error: true,
-            loading: false
-        });
-    }
-
-    updateChar = () => {
+    function updateChar() {
         const id = Math.floor(Math.random() * 140 + 25); // 25 - 140
-        this.gotService.getCharacter(id)
-            .then(this.onCharLoaded)
-            .catch(this.onError);
+        gotService.getCharacter(id)
+            .then(onCharLoaded)
+            .catch(onError);
     }
 
-    onToggle = () => {
-        this.setState(({visible}) => ({
-            visible: !visible
-        }));
+    function onToggle() {
+        setVisible(!visible);
     }
 
-    render() {
-        const { char, loading, visible, error } = this.state;
 
-        const errorMessage = error ? <ErrorMessage /> : null;
-        const spinner = loading ? <Spinner /> : null;
-        const content = !(loading || error) ? <View char={char} /> : null;
-        const block = visible ? (
-            <div className="random-block rounded">
-                {errorMessage}
-                {spinner}
-                {content}
-            </div>
-        ) : null;
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const spinner = loading ? <Spinner /> : null;
+    const content = !(loading || error) ? <View char={char} /> : null;
+    const block = visible ? (
+        <div className="random-block rounded">
+            {errorMessage}
+            {spinner}
+            {content}
+        </div>
+    ) : null;
 
-        return (
-            <>
-                {block}
-                <BlockToggler
-                    text="Toggle Random Character"
-                    onToggle={this.onToggle} />
-            </>
-        );
-    }
+    return (
+        <>
+            {block}
+            <BlockToggler
+                text="Toggle Random Character"
+                onToggle={onToggle} />
+        </>
+    );
 }
 
 const View = ({char}) => {
@@ -101,3 +91,5 @@ const View = ({char}) => {
         </>
     );
 }
+
+export default RandomChar;
