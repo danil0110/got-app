@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import './itemDetails.css';
-import GotService from '../../services/gotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
@@ -15,64 +14,49 @@ const Field = ({item, field, label}) => {
 
 export {Field};
 
-export default class ItemDetails extends Component {
-    gotService = new GotService();
+function ItemDetails({itemId, getData, children}) {
+    const [item, setItem] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
-    state = {
-        item: null,
-        loading: true,
-        error: false
-    }
+    useEffect(() => {
+        updateItem();
+    }, [itemId]);
 
-    componentDidMount() {
-        this.updateItem();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.itemId !== prevProps.itemId) {
-            this.updateItem();
-        }
-    }
-
-    updateItem() {
-        const {itemId} = this.props;
-
+    function updateItem() {
         if (!itemId) {
             return;
         }
 
-        this.setState({
-            loading: true
-        })
-
-        const {getData} = this.props;
+        setLoading(true);
 
         getData(itemId)
-            .then(item => this.setState({
-                item: item,
-                loading: false
-            }))
-            .catch(() => this.setState({
-                item: null,
-                loading: false,
-                error: true
-            }))
+            .then(item => {
+                setItem(item);
+                setLoading(false);
+            })
+            .catch(() => {
+                setItem(null);
+                setLoading(false);
+                setError(true);
+            });
     }
 
-    render() {
-        if (this.state.error) {
-            return <ErrorMessage />;
-        }
-
-        const {item} = this.state;
-        const content = this.state.loading ? <Spinner /> : <View item={item} children={this.props.children} />;
-
-        return (
-            <div className="item-details rounded">
-                {content}
-            </div>
-        );
+    if (error) {
+        return <ErrorMessage />;
     }
+
+    if (!itemId) {
+        return <span className="select-error">Choose an item</span>;
+    }
+
+    const content = loading ? <Spinner /> : <View item={item} children={children} />;
+
+    return (
+        <div className="item-details rounded">
+            {content}
+        </div>
+    );
 }
 
 const View = ({item, children}) => {
@@ -87,3 +71,5 @@ const View = ({item, children}) => {
         </>
     )
 }
+
+export default ItemDetails;
