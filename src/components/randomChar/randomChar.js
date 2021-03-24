@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './randomChar.css';
 import Spinner from '../spinner';
+import BlockToggler from '../blockToggler';
 import GotService from '../../services/gotService';
 import ErrorMessage from '../errorMessage';
 
@@ -18,6 +19,7 @@ export default class RandomChar extends Component {
     state = {
         char: {},
         loading: true,
+        visible: true,
         error: false
     }
 
@@ -42,19 +44,33 @@ export default class RandomChar extends Component {
             .catch(this.onError);
     }
 
+    onToggle = () => {
+        this.setState(({visible}) => ({
+            visible: !visible
+        }));
+    }
+
     render() {
-        const { char, loading, error } = this.state;
+        const { char, loading, visible, error } = this.state;
 
         const errorMessage = error ? <ErrorMessage /> : null;
         const spinner = loading ? <Spinner /> : null;
         const content = !(loading || error) ? <View char={char} /> : null;
-
-        return (
+        const block = visible ? (
             <div className="random-block rounded">
                 {errorMessage}
                 {spinner}
                 {content}
             </div>
+        ) : null;
+
+        return (
+            <>
+                {block}
+                <BlockToggler
+                    text="Toggle Random Character"
+                    onToggle={this.onToggle} />
+            </>
         );
     }
 }

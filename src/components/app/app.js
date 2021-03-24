@@ -22,8 +22,6 @@ export default class App extends React.Component {
     }
     
     render() {
-        const randomChar = this.state.randomCharVisible ? <RandomChar /> : null;
-
         return (
             <Router>
                 <div className="app"> 
@@ -31,14 +29,13 @@ export default class App extends React.Component {
                         <Header />
                     </Container>
                     <Container>
-                        <Row>
-                            <Col lg={{size: 5, offset: 0}}>
-                                {randomChar}
-                                <BlockToggler
-                                    text={'Toggle Random Character'}
-                                    onToggle={this.onToggle} />
-                            </Col>
-                        </Row>
+                        <Route path="/characters" render={() => (
+                            <Row>
+                                <Col lg={{size: 5, offset: 0}}>
+                                    <RandomChar />
+                                </Col>
+                            </Row>
+                        )} />
                         <Route path="/characters" component={CharactersPage} />
                         <Route path="/houses" component={HousesPage} />
                         <Route path="/books" exact component={BooksPage} />
