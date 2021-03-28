@@ -1,6 +1,7 @@
 export default class GotService {
     constructor() {
         this._apiBase = 'https://anapioficeandfire.com/api';
+        this.emptyMsg = 'no data :(';
     }
 
     getResource = async (url) => {
@@ -47,11 +48,11 @@ export default class GotService {
         const {url, name, gender, born, died, culture} = char;
         return {
             id: url ? +url.match(/\d+/gm)[0] : null,
-            name: name ? name : 'no data :(',
-            gender: gender ? gender : 'no data :(',
-            born: born ? born : 'no data :(',
-            died: died ? died : 'no data :(',
-            culture: culture ? culture: 'no data :('
+            name: name ? name : this.emptyMsg,
+            gender: gender ? gender : this.emptyMsg,
+            born: born ? born : this.emptyMsg,
+            died: died ? died : this.emptyMsg,
+            culture: culture ? culture: this.emptyMsg
         };
     }
 
@@ -59,12 +60,12 @@ export default class GotService {
         const {url, name, region, words, titles, overlord, ancestralWeapons} = house;
         return {
             id: url ? +url.match(/\d+/gm)[0] : null,
-            name: name ? name : 'no data :(',
-            region: region ? region : 'no data :(',
-            words: words ? words : 'no data :(',
-            titles: titles ? titles : 'no data :(',
-            overlord: overlord ? overlord : 'no data :(',
-            ancestralWeapons: ancestralWeapons ? ancestralWeapons : 'no data :('
+            name: name ? name : this.emptyMsg,
+            region: region ? region : this.emptyMsg,
+            words: words ? words : this.emptyMsg,
+            titles: titles ? titles : this.emptyMsg,
+            overlord: overlord ? overlord : this.emptyMsg,
+            ancestralWeapons: ancestralWeapons ? ancestralWeapons : this.emptyMsg
         };
     }
 
@@ -72,10 +73,10 @@ export default class GotService {
         const {url, name, numberOfPages, publisher, released} = book;
         return {
             id: url ? +url.match(/\d+/gm)[0] : null,
-            name: name ? name : 'no data :(',
-            numberOfPages: numberOfPages ? numberOfPages : 'no data :(',
-            publisher: publisher ? publisher : 'no data :(',
-            released: released ? released : 'no data :('
+            name: name ? name : this.emptyMsg,
+            numberOfPages: numberOfPages ? numberOfPages : this.emptyMsg,
+            publisher: publisher ? publisher : this.emptyMsg,
+            released: released ? released : this.emptyMsg
         };
     }
 }
