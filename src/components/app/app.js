@@ -39,9 +39,6 @@ export default class App extends React.Component {
                         }} />
                         <Switch>
                             <Route path="/" exact component={HomePage} />
-                            {/* <Route path="/characters" render={() => (
-                                
-                            )} /> */}
                             <Route path="/characters" component={CharactersPage} />
                             <Route path="/houses" component={HousesPage} />
                             <Route path="/books" exact component={BooksPage} />
